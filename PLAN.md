@@ -11,6 +11,11 @@
 - [x] Update dev script to run package watchers alongside the demo
 - [x] Verify builds and demo behavior
 
+## Phase 10: Hover Close Regression
+- [x] Reproduce and identify why hover exit no longer closes popover
+- [x] Implement minimal fix to restore expected close behavior
+- [x] Verify behavior and run tests
+
 ## Phase 1: Monorepo Scaffolding
 - [x] Root package.json, pnpm-workspace.yaml, tsconfig.json
 - [x] ESLint, Prettier, Changesets configs
@@ -72,3 +77,5 @@
 - Tests: `pnpm test`
 - Ensured dev workflow rebuilds workspace packages before the demo runs to reflect UI changes.
 - Builds: `pnpm -r --filter linkpeek --filter linkpeek-react --filter linkpeek-server build`
+- Restored hover-close behavior by delegating `pointerout` and guarding against internal anchor moves.
+- Tests: `pnpm test`

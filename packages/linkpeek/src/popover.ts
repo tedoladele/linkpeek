@@ -305,10 +305,12 @@ export function attachLinkPreviews(
     scheduleOpen(anchor);
   }
 
-  function onPointerLeave(event: PointerEvent): void {
+  function onPointerOut(event: PointerEvent): void {
     const anchor = findAnchor(event);
     if (!anchor) return;
     if (currentAnchor !== anchor) return;
+    const relatedTarget = event.relatedTarget as Element | null;
+    if (relatedTarget && anchor.contains(relatedTarget)) return;
 
     if (interactive && currentPopover) {
       // Give time to hover into the popover
@@ -388,7 +390,7 @@ export function attachLinkPreviews(
 
   // --- Attach event delegation ---
   root.addEventListener('pointerenter', onPointerEnter, true);
-  root.addEventListener('pointerleave', onPointerLeave, true);
+  root.addEventListener('pointerout', onPointerOut, true);
   root.addEventListener('focusin', onFocusIn, true);
   root.addEventListener('focusout', onFocusOut, true);
   document.addEventListener('keydown', onKeyDown);
@@ -400,7 +402,7 @@ export function attachLinkPreviews(
     clearOpenTimer();
     clearCloseTimer();
     root.removeEventListener('pointerenter', onPointerEnter, true);
-    root.removeEventListener('pointerleave', onPointerLeave, true);
+    root.removeEventListener('pointerout', onPointerOut, true);
     root.removeEventListener('focusin', onFocusIn, true);
     root.removeEventListener('focusout', onFocusOut, true);
     document.removeEventListener('keydown', onKeyDown);
