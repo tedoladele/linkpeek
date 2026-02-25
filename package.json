@@ -1,0 +1,29 @@
+{
+  "name": "linkpeek-monorepo",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@9.15.4",
+  "scripts": {
+    "dev": "pnpm --filter demo dev",
+    "build": "pnpm -r build",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "eslint 'packages/*/src/**/*.{ts,tsx}' 'apps/*/src/**/*.{ts,tsx}'",
+    "format": "prettier --write '**/*.{ts,tsx,json,md,css}'",
+    "format:check": "prettier --check '**/*.{ts,tsx,json,md,css}'",
+    "changeset": "changeset",
+    "version-packages": "changeset version",
+    "release": "pnpm build && changeset publish"
+  },
+  "devDependencies": {
+    "@changesets/cli": "^2.27.0",
+    "@types/node": "^22.0.0",
+    "eslint": "^9.0.0",
+    "jsdom": "^28.1.0",
+    "prettier": "^3.4.0",
+    "tsup": "^8.3.0",
+    "typescript": "^5.7.0",
+    "typescript-eslint": "^8.56.1",
+    "vitest": "^2.1.0"
+  }
+}
