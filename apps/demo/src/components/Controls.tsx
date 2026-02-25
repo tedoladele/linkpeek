@@ -43,7 +43,9 @@ const labelStyle: CSSProperties = {
 };
 
 const btnBase: CSSProperties = {
-  border: '1px solid #d1d5db',
+  borderWidth: 1,
+  borderStyle: 'solid',
+  borderColor: '#d1d5db',
   borderRadius: 6,
   padding: '4px 10px',
   fontSize: '0.75rem',
