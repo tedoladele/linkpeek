@@ -181,15 +181,20 @@ export async function validateResolvedIp(
   hostname: string,
 ): Promise<{ valid: boolean; reason?: string }> {
   try {
-    const { address } = await dns.promises.lookup(hostname);
+    const answers = await dns.promises.lookup(hostname, { all: true, verbatim: true });
+    if (!answers.length) {
+      return { valid: false, reason: 'DNS resolution returned no addresses' };
+    }
 
-    if (isPrivateIp(address)) {
-      // SECURITY: Do not reveal the resolved IP in the error message
-      // to avoid leaking internal network topology information.
-      return {
-        valid: false,
-        reason: 'Hostname resolves to a private/reserved IP address',
-      };
+    for (const { address } of answers) {
+      if (isPrivateIp(address)) {
+        // SECURITY: Do not reveal the resolved IP in the error message
+        // to avoid leaking internal network topology information.
+        return {
+          valid: false,
+          reason: 'Hostname resolves to a private/reserved IP address',
+        };
+      }
     }
 
     return { valid: true };

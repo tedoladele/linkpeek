@@ -7,3 +7,4 @@ const handler = createNextRouteHandler({
 });
 
 export const GET = handler;
+export const OPTIONS = handler.OPTIONS;

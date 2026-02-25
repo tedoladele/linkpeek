@@ -1,5 +1,6 @@
-import { describe, it, expect } from 'vitest';
-import { validateUrl, isPrivateIp } from './ssrf';
+import dns from 'node:dns';
+import { describe, it, expect, vi, afterEach } from 'vitest';
+import { validateUrl, isPrivateIp, validateResolvedIp } from './ssrf';
 
 describe('validateUrl', () => {
   it('accepts a valid HTTP URL', () => {
@@ -108,5 +109,32 @@ describe('isPrivateIp', () => {
     it.each(ipv6Cases)('%s -> %s', (ip, expected) => {
       expect(isPrivateIp(ip)).toBe(expected);
     });
+  });
+});
+
+describe('validateResolvedIp', () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  it('rejects hostnames when any DNS answer is private', async () => {
+    vi.spyOn(dns.promises, 'lookup').mockResolvedValueOnce([
+      { address: '93.184.216.34', family: 4 },
+      { address: '127.0.0.1', family: 4 },
+    ] as dns.LookupAddress[]);
+
+    const result = await validateResolvedIp('example.com');
+    expect(result.valid).toBe(false);
+    expect(result.reason).toMatch(/private|reserved/i);
+  });
+
+  it('accepts hostnames when all DNS answers are public', async () => {
+    vi.spyOn(dns.promises, 'lookup').mockResolvedValueOnce([
+      { address: '93.184.216.34', family: 4 },
+      { address: '2606:2800:220:1:248:1893:25c8:1946', family: 6 },
+    ] as dns.LookupAddress[]);
+
+    const result = await validateResolvedIp('example.com');
+    expect(result).toEqual({ valid: true });
   });
 });

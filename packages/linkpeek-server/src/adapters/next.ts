@@ -1,6 +1,10 @@
 import { resolveUrlPreview } from '../resolver';
 import type { MiddlewareOptions } from '../types';
 
+type NextRouteHandler = ((request: Request) => Promise<Response>) & {
+  OPTIONS: (request: Request) => Promise<Response>;
+};
+
 /**
  * Creates a Next.js App Router route handler for link preview resolution.
  *
@@ -13,7 +17,7 @@ import type { MiddlewareOptions } from '../types';
 export function createNextRouteHandler(opts?: MiddlewareOptions) {
   const paramName = opts?.paramName ?? 'url';
 
-  return async function GET(request: Request): Promise<Response> {
+  const GET = async function GET(request: Request): Promise<Response> {
     // ── Extract URL from query string ──────────────────────────────
     const { searchParams } = new URL(request.url);
     const targetUrl = searchParams.get(paramName);
@@ -41,6 +45,15 @@ export function createNextRouteHandler(opts?: MiddlewareOptions) {
       headers: jsonHeaders(preview.error ? undefined : 'public, max-age=3600, s-maxage=86400'),
     });
   };
+
+  const OPTIONS = async function OPTIONS(): Promise<Response> {
+    return new Response(null, {
+      status: 204,
+      headers: jsonHeaders(),
+    });
+  };
+
+  return Object.assign(GET, { OPTIONS }) as NextRouteHandler;
 }
 
 /**

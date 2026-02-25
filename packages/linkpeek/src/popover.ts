@@ -7,6 +7,7 @@ import type { AttachOptions, LinkPreview } from './types';
 
 /** Protocols that should never get a link preview */
 const SKIP_PROTOCOLS = ['mailto:', 'tel:', 'sms:', 'javascript:'];
+let customPopoverIdCounter = 0;
 
 /**
  * Determines whether a given anchor element should show a link preview.
@@ -173,6 +174,10 @@ export function attachLinkPreviews(
       popoverEl.appendChild(arrow);
     } else {
       popoverEl = createPopoverElement(preview, maxWidth, theme);
+    }
+
+    if (!popoverEl.id) {
+      popoverEl.id = `linkpeek-custom-popover-${++customPopoverIdCounter}`;
     }
 
     document.body.appendChild(popoverEl);

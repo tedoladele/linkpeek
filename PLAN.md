@@ -1,5 +1,13 @@
 # linkpeek Implementation Plan
 
+## Phase 11: Review Findings Remediation
+- [x] Reproduce and fix SSRF DNS validation to reject any private DNS answer
+- [x] Make resolver cache respect per-call cache configuration
+- [x] Add Next.js OPTIONS handler support for declared CORS methods
+- [x] Ensure custom-render popovers always have stable IDs for aria-describedby
+- [x] Add/update targeted tests for the above fixes
+- [x] Run full test suite and confirm no regressions
+
 ## Phase 8: Link Preview UI Refresh (YC-style card)
 - [x] Capture target layout (vertical image-first card with YC-style typography)
 - [x] Update popover DOM structure to match new layout
@@ -73,6 +81,12 @@
 - [x] Per-package READMEs
 
 ## Review
+- Fixed SSRF DNS validation to inspect all resolved answers and block if any are private/reserved.
+- Isolated resolver cache instances by cache config (`max` + `ttlMs`) to avoid cross-call config leakage.
+- Added Next.js route OPTIONS support and wired demo API route export for CORS preflight.
+- Ensured custom-render popovers receive stable IDs before `aria-describedby` is set.
+- Added regression tests for SSRF multi-answer DNS handling, resolver cache isolation, and Next OPTIONS behavior.
+- Tests: `pnpm -s test` (69 tests passing)
 - Updated link preview popover to a YC-style, image-first vertical card with refreshed typography and gradients.
 - Tests: `pnpm test`
 - Ensured dev workflow rebuilds workspace packages before the demo runs to reflect UI changes.

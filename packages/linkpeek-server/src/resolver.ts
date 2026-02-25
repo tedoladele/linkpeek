@@ -14,20 +14,24 @@ const DEFAULTS: Required<
 };
 
 /**
- * Module-level cache instance, lazily initialized on first use with caching
- * enabled. Shared across all calls to resolveUrlPreview unless the caller
- * supplies different cache options.
+ * Module-level cache instances keyed by cache config.
+ * Calls with different cache options use isolated cache buckets.
  */
-let sharedCache: LRUCache | null = null;
+const sharedCaches = new Map<string, LRUCache>();
 
 function getCache(opts: ResolveOptions): LRUCache | null {
   const cacheOpts = opts.cache;
   if (!cacheOpts || !cacheOpts.enabled) return null;
 
-  if (!sharedCache) {
-    sharedCache = new LRUCache({ max: cacheOpts.max, ttlMs: cacheOpts.ttlMs });
+  const key = `${cacheOpts.max}:${cacheOpts.ttlMs}`;
+  const existing = sharedCaches.get(key);
+  if (existing) {
+    return existing;
   }
-  return sharedCache;
+
+  const cache = new LRUCache({ max: cacheOpts.max, ttlMs: cacheOpts.ttlMs });
+  sharedCaches.set(key, cache);
+  return cache;
 }
 
 /**
