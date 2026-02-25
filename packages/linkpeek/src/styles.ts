@@ -3,13 +3,14 @@ export const defaultStyles = /* css */ `
 
 .linkpeek-popover {
   --lp-bg: #ffffff;
+  --lp-bg-soft: #fbfaf7;
   --lp-border: rgba(0, 0, 0, 0.08);
-  --lp-title-color: #1a1a1a;
+  --lp-title-color: #1f1f1f;
   --lp-desc-color: #6b6b6b;
-  --lp-meta-color: #9b9b9b;
-  --lp-radius: 12px;
-  --lp-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
-  --lp-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --lp-meta-color: #8f8f8f;
+  --lp-radius: 16px;
+  --lp-shadow: 0 14px 34px rgba(0, 0, 0, 0.12);
+  --lp-font-family: "Sora", "Manrope", "Avenir Next", "Trebuchet MS", sans-serif;
 
   position: absolute;
   top: 0;
@@ -42,8 +43,8 @@ export const defaultStyles = /* css */ `
 /* Card container */
 .linkpeek-card {
   display: flex;
-  flex-direction: row;
-  background: var(--lp-bg);
+  flex-direction: column;
+  background: linear-gradient(180deg, var(--lp-bg) 0%, var(--lp-bg-soft) 100%);
   border: 1px solid var(--lp-border);
   border-radius: var(--lp-radius);
   box-shadow: var(--lp-shadow);
@@ -54,14 +55,15 @@ export const defaultStyles = /* css */ `
 }
 
 /* Thumbnail */
-.linkpeek-thumb {
-  flex-shrink: 0;
-  width: 120px;
-  min-height: 100px;
+.linkpeek-media {
+  position: relative;
+  width: 100%;
+  height: 168px;
   overflow: hidden;
+  background: radial-gradient(circle at top left, #f2efe9 0%, #ffffff 55%);
 }
 
-.linkpeek-thumb img {
+.linkpeek-media img {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -72,11 +74,10 @@ export const defaultStyles = /* css */ `
 .linkpeek-thumb-placeholder {
   width: 100%;
   height: 100%;
-  min-height: 100px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #f5f5f5;
+  background: linear-gradient(135deg, #f3f1ec 0%, #ffffff 60%);
 }
 
 .linkpeek-thumb-placeholder img {
@@ -90,7 +91,7 @@ export const defaultStyles = /* css */ `
 .linkpeek-content {
   flex: 1;
   min-width: 0;
-  padding: 14px 16px;
+  padding: 16px 18px 18px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -98,9 +99,9 @@ export const defaultStyles = /* css */ `
 
 /* Title */
 .linkpeek-title {
-  font-size: 14px;
+  font-size: 18px;
   font-weight: 600;
-  line-height: 1.4;
+  line-height: 1.3;
   color: var(--lp-title-color);
   margin: 0;
   display: -webkit-box;
@@ -113,10 +114,10 @@ export const defaultStyles = /* css */ `
 
 /* Description */
 .linkpeek-desc {
-  font-size: 13px;
-  line-height: 1.45;
+  font-size: 13.5px;
+  line-height: 1.5;
   color: var(--lp-desc-color);
-  margin: 4px 0 0;
+  margin: 8px 0 0;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
@@ -131,7 +132,7 @@ export const defaultStyles = /* css */ `
   flex-direction: row;
   align-items: center;
   gap: 6px;
-  margin-top: 8px;
+  margin-top: 12px;
   min-width: 0;
 }
 
@@ -152,54 +153,19 @@ export const defaultStyles = /* css */ `
   min-width: 0;
 }
 
-/* Arrow for floating-ui */
-.linkpeek-arrow {
-  position: absolute;
-  width: 12px;
-  height: 12px;
-  background: var(--lp-bg);
-  border: 1px solid var(--lp-border);
-  transform: rotate(45deg);
-  pointer-events: none;
-}
-
-/* Arrow clipping per placement */
-.linkpeek-popover[data-placement^="bottom"] .linkpeek-arrow {
-  top: -7px;
-  border-bottom: none;
-  border-right: none;
-}
-
-.linkpeek-popover[data-placement^="top"] .linkpeek-arrow {
-  bottom: -7px;
-  border-top: none;
-  border-left: none;
-}
-
-.linkpeek-popover[data-placement^="left"] .linkpeek-arrow {
-  right: -7px;
-  border-left: none;
-  border-bottom: none;
-}
-
-.linkpeek-popover[data-placement^="right"] .linkpeek-arrow {
-  left: -7px;
-  border-right: none;
-  border-top: none;
-}
-
 /* Dark theme */
 .linkpeek-popover.linkpeek-dark {
-  --lp-bg: #2d2d2d;
+  --lp-bg: #2b2b2b;
+  --lp-bg-soft: #262626;
   --lp-border: rgba(255, 255, 255, 0.1);
-  --lp-title-color: #e8e8e8;
-  --lp-desc-color: #999999;
-  --lp-meta-color: #777777;
-  --lp-shadow: 0 2px 16px rgba(0, 0, 0, 0.24);
+  --lp-title-color: #f1f1f1;
+  --lp-desc-color: #b0b0b0;
+  --lp-meta-color: #8a8a8a;
+  --lp-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
 }
 
 .linkpeek-dark .linkpeek-thumb-placeholder {
-  background: #3a3a3a;
+  background: linear-gradient(135deg, #343434 0%, #2a2a2a 70%);
 }
 
 /* Loading state */

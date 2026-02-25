@@ -1,5 +1,16 @@
 # linkpeek Implementation Plan
 
+## Phase 8: Link Preview UI Refresh (YC-style card)
+- [x] Capture target layout (vertical image-first card with YC-style typography)
+- [x] Update popover DOM structure to match new layout
+- [x] Refresh CSS variables, typography, and spacing to mirror design
+- [x] Verify in demo pages and run tests
+
+## Phase 9: Dev Build Wiring
+- [x] Identify why UI changes are not reflected in demo
+- [x] Update dev script to run package watchers alongside the demo
+- [x] Verify builds and demo behavior
+
 ## Phase 1: Monorepo Scaffolding
 - [x] Root package.json, pnpm-workspace.yaml, tsconfig.json
 - [x] ESLint, Prettier, Changesets configs
@@ -57,4 +68,7 @@
 - [x] Per-package READMEs
 
 ## Review
-- TBD after implementation
+- Updated link preview popover to a YC-style, image-first vertical card with refreshed typography and gradients.
+- Tests: `pnpm test`
+- Ensured dev workflow rebuilds workspace packages before the demo runs to reflect UI changes.
+- Builds: `pnpm -r --filter linkpeek --filter linkpeek-react --filter linkpeek-server build`

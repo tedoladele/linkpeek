@@ -5,8 +5,8 @@ let popoverIdCounter = 0;
 /**
  * Creates the popover DOM element for a link preview card.
  *
- * The card uses a horizontal layout: thumbnail on the left, content on the right,
- * matching Notion's rich link preview design.
+ * The card uses a vertical layout: media on top, content below,
+ * matching the YC-style preview card in the reference.
  */
 export function createPopoverElement(
   preview: LinkPreview,
@@ -40,9 +40,9 @@ export function createPopoverElement(
   const card = document.createElement('div');
   card.className = 'linkpeek-card';
 
-  // Thumbnail area
-  const thumb = document.createElement('div');
-  thumb.className = 'linkpeek-thumb';
+  // Media area
+  const media = document.createElement('div');
+  media.className = 'linkpeek-media';
 
   if (preview.image?.url) {
     const img = document.createElement('img');
@@ -52,15 +52,15 @@ export function createPopoverElement(
     img.setAttribute('aria-hidden', 'true');
     // On error, replace with placeholder
     img.onerror = () => {
-      thumb.innerHTML = '';
-      thumb.appendChild(createPlaceholder(preview.favicon));
+      media.innerHTML = '';
+      media.appendChild(createPlaceholder(preview.favicon));
     };
-    thumb.appendChild(img);
+    media.appendChild(img);
   } else {
-    thumb.appendChild(createPlaceholder(preview.favicon));
+    media.appendChild(createPlaceholder(preview.favicon));
   }
 
-  card.appendChild(thumb);
+  card.appendChild(media);
 
   // Content area
   const content = document.createElement('div');
@@ -106,11 +106,6 @@ export function createPopoverElement(
   content.appendChild(meta);
   card.appendChild(content);
   popover.appendChild(card);
-
-  // Arrow element for floating-ui positioning
-  const arrow = document.createElement('div');
-  arrow.className = 'linkpeek-arrow';
-  popover.appendChild(arrow);
 
   return popover;
 }
