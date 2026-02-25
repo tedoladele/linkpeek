@@ -63,7 +63,9 @@ function App() {
 // app/api/preview/route.ts
 import { createNextRouteHandler } from 'linkpeek-server';
 
-export const GET = createNextRouteHandler();
+const handler = createNextRouteHandler();
+export const GET = handler;
+export const OPTIONS = handler.OPTIONS;
 ```
 
 ## Express Middleware
@@ -108,6 +110,57 @@ The server package includes built-in SSRF (Server-Side Request Forgery) protecti
 - Resolves DNS and blocks private/internal IP ranges (127.0.0.0/8, 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16, 169.254.0.0/16, IPv6 loopback/private)
 - Re-validates each redirect destination against SSRF rules
 - Configurable domain allowlists and blocklists
+
+## Response Contract
+
+`resolveUrlPreview` and server adapters return a `LinkPreview` JSON object.
+
+Success shape:
+
+```json
+{
+  "url": "https://example.com",
+  "canonicalUrl": "https://example.com/page",
+  "title": "Example Title",
+  "description": "Example description",
+  "siteName": "Example",
+  "image": { "url": "https://example.com/hero.png", "width": 1200, "height": 630 },
+  "favicon": "https://example.com/favicon.ico",
+  "fetchedAt": "2026-02-25T23:00:00.000Z"
+}
+```
+
+Failure shape:
+
+```json
+{
+  "url": "https://example.com",
+  "fetchedAt": "2026-02-25T23:00:00.000Z",
+  "error": {
+    "code": "TIMEOUT",
+    "message": "Request timed out after 10000ms"
+  }
+}
+```
+
+Common error codes include: `TIMEOUT`, `DOMAIN_BLOCKED`, `NOT_HTML`, `HTTP_ERROR`, `TOO_MANY_REDIRECTS`, `SSRF_BLOCKED`, `INVALID_URL`.
+
+## Production Hardening Example
+
+```ts
+import { createNextRouteHandler } from 'linkpeek-server';
+
+const handler = createNextRouteHandler({
+  timeoutMs: 8000,
+  maxBytes: 1_048_576,
+  maxRedirects: 5,
+  allowlistDomains: ['github.com', 'news.ycombinator.com', 'developer.mozilla.org'],
+  cache: { enabled: true, ttlMs: 24 * 60 * 60 * 1000, max: 1000 },
+});
+
+export const GET = handler;
+export const OPTIONS = handler.OPTIONS;
+```
 
 ## FAQ
 

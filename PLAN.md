@@ -8,6 +8,13 @@
 - [x] Add/update targeted tests for the above fixes
 - [x] Run full test suite and confirm no regressions
 
+## Phase 12: README Accuracy and Integration Guidance
+- [x] Align README defaults/examples with current implementation values
+- [x] Document Next.js GET + OPTIONS export pattern
+- [x] Add response contract section for success/error payloads
+- [x] Add production hardening snippet for server resolver settings
+- [x] Review docs for consistency and regressions
+
 ## Phase 8: Link Preview UI Refresh (YC-style card)
 - [x] Capture target layout (vertical image-first card with YC-style typography)
 - [x] Update popover DOM structure to match new layout
@@ -81,6 +88,10 @@
 - [x] Per-package READMEs
 
 ## Review
+- Synced root and package README defaults with actual runtime values (`timeoutMs`, `maxBytes`, `maxRedirects`, cache defaults).
+- Updated Next.js route examples to export both `GET` and `OPTIONS` from `createNextRouteHandler`.
+- Added response contract documentation (success/error shapes + common error codes) in root and server READMEs.
+- Added a production hardening snippet with allowlist, limits, redirects, and cache settings.
 - Fixed SSRF DNS validation to inspect all resolved answers and block if any are private/reserved.
 - Isolated resolver cache instances by cache config (`max` + `ttlMs`) to avoid cross-call config leakage.
 - Added Next.js route OPTIONS support and wired demo API route export for CORS preflight.

@@ -45,7 +45,7 @@ cleanup();
 | `interactive` | `boolean` | `true` | Allow hovering into popover |
 | `theme` | `string` | `"system"` | `"light"`, `"dark"`, or `"system"` |
 | `fetchOn` | `string` | `"enter"` | When to start fetching |
-| `cache` | `object` | enabled, 24h, 500 | LRU cache config |
+| `cache` | `object` | enabled, 24h, 100 | LRU cache config |
 | `render` | `function` | built-in | Custom popover renderer |
 | `shouldPreview` | `function` | built-in | Filter which links get previews |
 | `onOpen` | `function` | - | Callback when popover opens |
