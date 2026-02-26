@@ -1,0 +1,18 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "apps/demo/package.json",
+      "use": "@vercel/next"
+    }
+  ],
+  "routes": [
+    { "src": "^/_next/(.*)$", "dest": "/apps/demo/_next/$1" },
+    { "src": "^/$", "dest": "/apps/demo" },
+    { "src": "^/demo$", "dest": "/apps/demo" },
+    { "src": "^/demo/(.*)$", "dest": "/apps/demo/$1" },
+    { "src": "^/client-demo$", "dest": "/apps/demo/client-demo" },
+    { "src": "^/server-demo$", "dest": "/apps/demo/server-demo" },
+    { "src": "^/api/preview$", "dest": "/apps/demo/api/preview" }
+  ]
+}

@@ -4,10 +4,20 @@ Notion-like rich link previews on hover/focus for any web page.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Try%20Now-black)](https://linkpeek-demo.vercel.app/demo)
 
 ## What it does
 
 When a user hovers or focuses a link, linkpeek shows a rich preview popover with the page's title, description, image, and favicon. Works with any HTML container, any framework, and supports both client-only and server-resolved previews.
+
+## Demo
+
+- Live demo: https://linkpeek-demo.vercel.app/demo
+- Client-side demo route: `https://linkpeek-demo.vercel.app/demo/client-demo`
+- Server-resolved demo route: `https://linkpeek-demo.vercel.app/demo/server-demo`
+
+Notes:
+- The `/server-demo` page calls `/demo/api/preview`, so external fetch behavior depends on network access and target-site availability.
 
 ## Packages
 
